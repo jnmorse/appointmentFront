@@ -27,5 +27,19 @@
     "linebreak-style": ["error", "unix"],
     "quotes": ["error", "double"],
     "semi": ["error", "always"]
-  }
+  },
+  "overrides": [
+    {
+      "files": ["jest.config.js"],
+      "env": {
+        "node": true
+      }
+    },
+    {
+      "files": ["**/*.test.js"],
+      "env": {
+        "jest": true
+      }
+    }
+  ]
 }
