@@ -39,13 +39,11 @@ describe("Api.InsertNewAppointment()", () => {
     const response = await result.next().value;
 
     // pass response to next and await check
-    const saved = await result.next(response).value;
+    const saved = result.next(response).value;
 
     expect(saved).toBe(true);
 
     // just to double check status code
     expect(response.status).toBe(201);
-
-    scope.done();
   });
 });
