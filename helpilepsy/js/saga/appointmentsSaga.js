@@ -3,6 +3,7 @@ import {
   FETCH_SUCCESS,
   FETCH_FAIL,
   ADD_APPOINTMENT,
+  ADD_APPOINTMENT_SUCCESS,
   EDIT_SUCCESS,
   EDIT_APPOINTMENT,
   DELETE_APPOINTMENT,
@@ -15,7 +16,7 @@ import { Api } from "./api";
 function* fetchList() {
   try {
     const list = yield Api.getListFromApi();
-    yield put({ type: FETCH_SUCCESS, list: list });
+    yield put({ type: FETCH_SUCCESS, payload: list });
   } catch (error) {
     yield put({ type: FETCH_FAIL, error });
   }
@@ -24,16 +25,14 @@ export function* watchFetchList() {
   yield takeLatest(FETCH_APPOINTMENTS, fetchList);
 }
 
-function* addNewAppointment(action) {
-  console.log("action-payload", action.payload);
+export function* addNewAppointment(action) {
   try {
     const result = yield Api.InsertNewAppointment(action.payload);
     if (result === true) {
-      console.log("updateAppointment", result);
-      yield put({ type: FETCH_APPOINTMENTS, sort: "desc" });
+      yield put({ type: ADD_APPOINTMENT_SUCCESS, payload: action.payload });
     }
   } catch (error) {
-    console.log(error);
+    yield put({ type: "ADD_APPOINTMENT_FAIL" });
   }
 }
 export function* watchAddAppointment() {
@@ -47,24 +46,23 @@ function* updateAppointment(action) {
       yield put({ type: EDIT_SUCCESS, updated: action.payload });
     }
   } catch (error) {
-    console.log(error);
+    yield put({ type: "EDIT_FAIL" });
   }
 }
 export function* watchEditAppointment() {
   yield takeLatest(EDIT_APPOINTMENT, updateAppointment);
 }
 
-function* deleteAppointment(action){
-    try{
-        const result = yield Api.deleteAppointment(action.payload);
-        if(result){
-            yield put ({ type : DELETE_SUCCESS, deleted : action.payload })
-        }
-
-    }catch(error){
-        console.log(error)
+function* deleteAppointment(action) {
+  try {
+    const result = yield Api.deleteAppointment(action.payload);
+    if (result) {
+      yield put({ type: DELETE_SUCCESS, payload: action.payload });
     }
+  } catch (error) {
+    yield put({ type: "DELETE_FAIL" });
+  }
 }
-export function* watchDeleteAppointment(){
-    yield takeLatest(DELETE_APPOINTMENT, deleteAppointment)
+export function* watchDeleteAppointment() {
+  yield takeLatest(DELETE_APPOINTMENT, deleteAppointment);
 }

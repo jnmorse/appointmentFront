@@ -1,6 +1,8 @@
 import React, { Component } from "react";
+import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { TouchableOpacity, View, Text } from "react-native";
+
 import { deleteAction } from "../../js/actions/index";
 import styles from "../../styles/index";
 
@@ -16,6 +18,20 @@ const mapDispatchToProps = dispatch => {
 };
 
 class AppointmentItem extends Component {
+  static propTypes = {
+    onDeleteAction: PropTypes.func.isRequired,
+    navigation: PropTypes.shape({
+      navigate: PropTypes.func.isRequired
+    }).isRequired,
+    data: PropTypes.arrayOf(
+      PropTypes.shape({
+        Neurologist: PropTypes.string.isRequired,
+        Type: PropTypes.string.isRequired,
+        Hour: PropTypes.number.isRequired
+      })
+    ).isRequired
+  };
+
   constructor(props) {
     super(props);
   }
@@ -25,7 +41,6 @@ class AppointmentItem extends Component {
   };
 
   render() {
-   
     return this.props.data.map(appointment =>
       appointment !== undefined ? (
         <View style={styles.Content} key={appointment._id}>
@@ -47,7 +62,7 @@ class AppointmentItem extends Component {
 
             <View style={styles.hour}>
               <Text style={styles.Text}>{appointment.Hour}</Text>
-              { appointment.Hour < 6 ? (
+              {appointment.Hour < 6 ? (
                 <Text style={styles.Text}>pm</Text>
               ) : (
                 <Text style={styles.Text}>am</Text>

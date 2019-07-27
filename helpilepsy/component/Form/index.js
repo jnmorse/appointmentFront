@@ -71,7 +71,11 @@ class AppointmentForm extends Component {
     }).isRequired,
     AddAppointment: PropTypes.func.isRequired,
     handleSubmit: PropTypes.func.isRequired,
-    input: PropTypes.object
+    EditAppointment: PropTypes.func.isRequired,
+    input: PropTypes.object,
+    appointment: PropTypes.shape({
+      Neurologist: PropTypes.string
+    })
   };
 
   constructor(props) {

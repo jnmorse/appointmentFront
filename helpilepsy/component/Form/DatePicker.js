@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import { View, Text } from 'react-native';
 import PropTypes from "prop-types";
 import DatePicker from "react-native-datepicker";
 
@@ -15,11 +14,10 @@ export default class MyDatePicker extends Component {
 
   render() {
     const { onChange, value } = this.props;
-    
+
     return (
-     
       <DatePicker
-        style={{ width: "100%", marginBottom : 15 }}
+        style={{ width: "100%", marginBottom: 15 }}
         date={value}
         mode="date"
         placeholder="select date"
@@ -37,14 +35,11 @@ export default class MyDatePicker extends Component {
           },
           dateInput: {
             marginLeft: 36,
-            borderColor : "grey",
-            
+            borderColor: "grey"
           }
         }}
         onDateChange={date => onChange(date)}
       />
-      
-      
     );
   }
 }

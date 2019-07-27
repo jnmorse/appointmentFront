@@ -1,8 +1,8 @@
-import { listUrl, addUrl, editUrl, deleteUrl } from "../constants";
+import { apiURL } from "../constants";
 
 //send GET request to fetch appointments from api
 function* getListFromApi() {
-  const response = yield fetch(listUrl, {
+  const response = yield fetch(`${apiURL}/appointments/list`, {
     method: "GET",
     headers: {
       Accept: "application/json",
@@ -16,13 +16,12 @@ function* getListFromApi() {
 
   const data = yield response.json();
   const list = data.appointment;
-  console.log(list, "list");
   return list;
 }
 
 //send POST request to add new appointment
 function* InsertNewAppointment(appointment) {
-  const response = yield fetch(addUrl, {
+  const response = yield fetch(`${apiURL}/appointments/add`, {
     method: "POST",
     headers: {
       Accept: "application/json",
@@ -36,12 +35,11 @@ function* InsertNewAppointment(appointment) {
       Remarks: appointment.Remarks
     })
   });
-  yield response.json();
-  response.status === 201 ? true : false;
+  return response.status === 200;
 }
 //send POST request to update existing appointment
 function* updateAppointment(updated) {
-  const urlLink = `${editUrl}${updated._id}`;
+  const urlLink = `${apiURL}/appointments/edit/${updated._id}`;
   const response = yield fetch(urlLink, {
     method: "POST",
     headers: {
@@ -55,22 +53,21 @@ function* updateAppointment(updated) {
       Hour: Number(updated.Hour),
       Remarks: updated.Remarks
     })
-  });
+  }).then(r => r.json());
   yield response.json();
-  return response.status === 200;
+  yield response.status === 200;
 }
 //send DELETE request to delete existing appointment
-function* deleteAppointment(deleted) {  
-  console.log('deleted',deleted)   
-  const urlLink = `${deleteUrl}${deleted}`;    
+function* deleteAppointment(deleted) {
+  const urlLink = `${apiURL}/appointments/delete/${deleted}`;
   const response = yield fetch(urlLink, {
-      method: 'GET',
-      headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-      }
+    method: "GET",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json"
+    }
   });
-  return yield (response.status === 200);//true or false
+  return response.status === 200; //true or false
 }
 export const Api = {
   getListFromApi,

@@ -1,9 +1,10 @@
 import React, { Component } from "react";
-import { ScrollView, Text, TouchableOpacity } from "react-native";
+import PropTypes from "prop-types";
+import { ScrollView } from "react-native";
 import { connect } from "react-redux";
 import AppointmentItem from "../appointmentItem/index";
 import { fetchAction } from "../../js/actions/index";
-import styles from '../../styles/index';
+import styles from "../../styles/index";
 
 const mapStateToProps = state => {
   return {
@@ -17,6 +18,13 @@ const mapDispatchToProps = dispatch => {
 };
 
 class AppointmentsList extends Component {
+  static propTypes = {
+    onFetchAction: PropTypes.func.isRequired,
+    navigation: PropTypes.shape({
+      dismiss: PropTypes.func.isRequired
+    }).isRequired
+  };
+
   constructor(props) {
     super(props);
     this.state = {};
@@ -26,23 +34,15 @@ class AppointmentsList extends Component {
     this.props.onFetchAction();
   }
 
-  componentDidUpdate(prevProps, prevState) {
-    if (prevProps.data.length !== this.props.data.length) {
-      this.props.onFetchAction();
-    }
-  }
-
   render() {
-    console.log(this.props);
     return (
       <ScrollView
         maximumZoomScale={3}
         minimumZoomScale={0.2}
         keyboardDismissMode="on-drag"
-        contentContainerStyle ={ styles.scrollContainer}
+        contentContainerStyle={styles.scrollContainer}
       >
         <AppointmentItem navigation={this.props.navigation} />
-        
       </ScrollView>
     );
   }

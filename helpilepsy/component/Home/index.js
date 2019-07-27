@@ -1,11 +1,19 @@
 import React, { Component } from "react";
+import PropTypes from "prop-types";
 import { View, TouchableOpacity, Text } from "react-native";
 import styles from "../../styles";
 
 class Home extends Component {
+  static propTypes = {
+    navigation: PropTypes.shape({
+      navigate: PropTypes.func.isRequired
+    }).isRequired
+  };
+
   constructor(props) {
     super(props);
   }
+
   render() {
     return (
       <View style={styles.home}>
