@@ -26,11 +26,12 @@
     "indent": ["error", 2],
     "linebreak-style": ["error", "unix"],
     "quotes": ["error", "double"],
-    "semi": ["error", "always"]
+    "semi": ["error", "always"],
+    "no-console": "error"
   },
   "overrides": [
     {
-      "files": ["jest.config.js"],
+      "files": ["jest.config.js", "babel.config.js"],
       "env": {
         "node": true
       }

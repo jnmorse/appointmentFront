@@ -50,7 +50,7 @@ describe("appointmentsReducer", () => {
     };
 
     const results = appointmentsReducer([], {
-      type: ActionType.ADD_APPOINTMENT,
+      type: ActionType.ADD_APPOINTMENT_SUCCESS,
       payload: addItem
     });
 
